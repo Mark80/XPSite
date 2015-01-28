@@ -1,6 +1,6 @@
 package test.scala.stringCalculator
 
-import main.scala.strinCalculetor.StringCalculator
+import main.scala.stringCalculator.StringCalculator
 import org.scalatest.FunSuite
 
 /**
