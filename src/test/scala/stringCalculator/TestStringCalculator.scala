@@ -8,11 +8,10 @@ import org.scalatest.FunSuite
  */
 class TestStringCalculator extends FunSuite {
 
-  private val calculetor = new StringCalculator()
+  private val calculator = new StringCalculator()
 
   test("Creo StringCalculetor") {
-    val result: Int = somma("")
-    assert(calculetor != null)
+    assert(calculator != null)
   }
 
   test("se passo una stringa vuota il risultato è 0") {
@@ -95,7 +94,7 @@ class TestStringCalculator extends FunSuite {
 
 
   private def somma(str : String): Int = {
-    calculetor.add(str)
+    calculator.add(str)
   }
 
 }
