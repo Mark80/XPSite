@@ -29,9 +29,6 @@ class TestStringCalculator extends FunSuite {
     assert(result6 == 6)
   }
 
-  private def somma(str : String): Int = {
-    calculetor.add(str)
-  }
 
   test("se passo una stringa con due  numeri  il risultato è la somma dei  numeri") {
 
@@ -94,6 +91,11 @@ class TestStringCalculator extends FunSuite {
     assert(result == 2)
 
 
+  }
+
+
+  private def somma(str : String): Int = {
+    calculetor.add(str)
   }
 
 }
