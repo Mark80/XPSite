@@ -6,7 +6,7 @@ import org.scalatest.FunSuite
 /**
  * Created by tosini on 28/01/15.
  */
-class TestStringCalculetor extends FunSuite {
+class TestStringCalculator extends FunSuite {
 
   private val calculetor = new StringCalculator()
 
