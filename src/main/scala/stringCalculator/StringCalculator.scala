@@ -1,4 +1,4 @@
-package main.scala.strinCalculetor
+package main.scala.stringCalculator
 
 /**
  * Created by tosini on 28/01/15.
