@@ -15,24 +15,23 @@ class Game {
     result
   }
 
-  def punteggioFrameNumero(num: Int): Int = {
-    val frameCorrente: Frame = getFrameCorrente(num)
-    var punteggio: Int = frameCorrente.numeroBirilliAbbattuti()
+  def punteggioFrameNumero(implicit num: Int): Int = {
+    var punteggio: Int =  frameCorrente.numeroBirilliAbbattuti()
     if (frameCorrente.isSpare) {
-      punteggio += getFrameSuccessivo(num).primoTiro
+      punteggio += frameSuccessivo.primoTiro
     }
     if (frameCorrente.isStrike) {
-      punteggio += getFrameSuccessivo(num).primoTiro + getFrameSuccessivo(num).secondoTiro
+      punteggio += frameSuccessivo.primoTiro + frameSuccessivo.secondoTiro
     }
     punteggio
   }
 
 
-  private[this] def getFrameSuccessivo(num: Int): Frame = {
+  private[this] def frameSuccessivo(implicit num: Int): Frame = {
     frames(num)
   }
 
-  private[this] def getFrameCorrente(num: Int): Frame = {
+  private[this] def frameCorrente(implicit num: Int): Frame = {
     frames(num - 1)
   }
 
@@ -61,13 +60,12 @@ class Game {
 
 class Frame(val primoTiro: Int, val secondoTiro: Int) {
 
-  if (primoTiro + secondoTiro > 10) throw new IllegalArgumentException("numero di birilli maggiore di 10")
+  private[this] val tuttiBirilli = 10
+
+  if (primoTiro + secondoTiro > tuttiBirilli) throw new IllegalArgumentException("numero di birilli maggiore di 10")
 
   def numeroBirilliAbbattuti(): Int = primoTiro + secondoTiro
 
-
-  def numeroDiTiri: Int = 2
-
-  lazy val isSpare: Boolean = numeroBirilliAbbattuti() == 10 && primoTiro < 10
+  lazy val isSpare: Boolean = numeroBirilliAbbattuti() == tuttiBirilli && primoTiro < tuttiBirilli
   lazy val isStrike: Boolean = primoTiro == 10
 }
