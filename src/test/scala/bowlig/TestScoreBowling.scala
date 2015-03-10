@@ -44,16 +44,16 @@ class TestScoreBowling extends FunSuite {
   test("Non posso aggiungere più di 10 frame ad una partita") {
     val game = new Game();
     aggiungoDieciFrameTo(game)
-    assert(game.numOfFrames == 10)
+    assert(game.numOfFramesCompleted == 10)
     game.addFrame(new Frame(2, 5))
-    assert(game.numOfFrames == 10)
+    assert(game.numOfFramesCompleted == 10)
   }
 
 
 
   test("in un frame si possono abbattare al massimo 10 birilli") {
     try {
-      val frame = new Frame(tiro1 = 4, tiro2 = 8)
+      val frame = new Frame(primoTiro = 4, secondoTiro = 8)
       assert(false)
     } catch {
       case ex: IllegalArgumentException => assert(true)
@@ -61,10 +61,10 @@ class TestScoreBowling extends FunSuite {
   }
   test("Se non si abbattono tutti i birilli nei due turni il punteggio è dei birilli buttati giù") {
     val frame = new Frame(3, 4)
-    assert(frame.numeroBirilliAbbttuti() == 7)
+    assert(frame.numeroBirilliAbbattuti() == 7)
 
     val frame2 = new Frame(5, 4)
-    assert(frame2.numeroBirilliAbbttuti() == 9)
+    assert(frame2.numeroBirilliAbbattuti() == 9)
   }
 
   test("l'inserimento mantiene l'orine di inserimento dei frame") {
@@ -72,8 +72,8 @@ class TestScoreBowling extends FunSuite {
     val frame1 = new Frame(3, 7)
     val frame2 = new Frame(3, 4)
     game.addFrame(frame1, frame2)
-    assert(game.getFrame(1) == frame1)
-    assert(game.getFrame(2) == frame2)
+    assert(game.getLastFrame(1) == frame1)
+    assert(game.getLastFrame(2) == frame2)
   }
 
 
@@ -99,14 +99,14 @@ class TestScoreBowling extends FunSuite {
     val game = new Game()
     aggiungoDieciFrameWhereLastIsASpareTo(game)
     game.addFrame(new Frame(4, 0))
-    assert(game.numOfFrames == 11)
+    assert(game.numOfFramesCompleted == 11)
   }
 
   test("se l'ultimo frame uno strike posso aggiugere un tiro") {
     val game = new Game()
     aggiungoDieciFrameWhereLastIsAStrikeTo(game)
     game.addFrame(new Frame(4, 0))
-    assert(game.numOfFrames == 11)
+    assert(game.numOfFramesCompleted == 11)
   }
 
   test("posso calcolare il punteggio totale di una partita"){
@@ -119,13 +119,13 @@ class TestScoreBowling extends FunSuite {
     val game = new Game()
     aggiungoDieciFrameWhereLastIsAStrikeTo(game)
     game.addFrame(new Frame(4, 5))
-    assert(game.numOfFrames == 11)
+    assert(game.numOfFramesCompleted == 11)
     assert(game.score() == 55)
   }
 
 
   private def getLastFrame(game: Game): Frame = {
-    game.getFrame(10)
+    game.getLastFrame(10)
   }
 
   private def aggiungoDieciFrameTo(game: Game) {
