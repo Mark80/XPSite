@@ -10,12 +10,12 @@ class Game {
   def score(): Int = {
     var result = 0
     for (i <- 1 to 10) {
-      result += punteggioFrameNumero(i)
+      result += punteggioFrame(i)
     }
     result
   }
 
-  def punteggioFrameNumero(implicit num: Int): Int = {
+  def punteggioFrame(implicit num: Int): Int = {
     var punteggio: Int =  frameCorrente.numeroBirilliAbbattuti()
     if (frameCorrente.isSpare) {
       punteggio += frameSuccessivo.primoTiro
@@ -26,39 +26,30 @@ class Game {
     punteggio
   }
 
+  private[this] def frameCorrente(implicit num: Int): Frame = frames(num - 1)
+  private[this] def frameSuccessivo(implicit num: Int): Frame = frames(num)
 
-  private[this] def frameSuccessivo(implicit num: Int): Frame = {
-    frames(num)
-  }
-
-  private[this] def frameCorrente(implicit num: Int): Frame = {
-    frames(num - 1)
-  }
-
+  
   def addFrame(frame: Frame*): Unit = {
-    if (frames.size < 10)
+    if (!isLastFrame)
       frames = frames.++(frame)
-    else
-    if (lastIsASpare || lastIsAStrike)
+    else if (lastIsASpare || lastIsAStrike)
       frames = frames.:+(frame.head)
   }
 
-  private[this] def lastIsASpare: Boolean = {
-    frames.size == 10 && getLastFrame(10).isSpare
-  }
+  private[this] def lastIsASpare: Boolean = isLastFrame && lastFrame.isSpare
+  private[this] def lastIsAStrike: Boolean = isLastFrame && lastFrame.isStrike
+  private[this] def isLastFrame: Boolean = frames.size == 10
+  private[this] def lastFrame : Frame = getFrame(10)
 
-  private[this] def lastIsAStrike: Boolean = {
-    frames.size == 10 && getLastFrame(10).isStrike
-  }
-
-  def getLastFrame(num: Int): Frame = frames(num - 1)
+  def getFrame(num: Int): Frame = frames(num - 1)
 
   def numOfFramesCompleted: Int = frames.size
 
 
 }
 
-class Frame(val primoTiro: Int, val secondoTiro: Int) {
+case class Frame(val primoTiro: Int, val secondoTiro: Int) {
 
   private[this] val tuttiBirilli = 10
 
@@ -67,5 +58,5 @@ class Frame(val primoTiro: Int, val secondoTiro: Int) {
   def numeroBirilliAbbattuti(): Int = primoTiro + secondoTiro
 
   lazy val isSpare: Boolean = numeroBirilliAbbattuti() == tuttiBirilli && primoTiro < tuttiBirilli
-  lazy val isStrike: Boolean = primoTiro == 10
+  lazy val isStrike: Boolean = primoTiro == tuttiBirilli
 }
